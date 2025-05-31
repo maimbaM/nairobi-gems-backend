@@ -19,8 +19,8 @@ provider "aws" {
 }
 
 # IAM Role for Lambda
-resource "aws_iam_role" "lambda_role" {
-  name = "lambda_role"
+resource "aws_iam_role" "nairobi-gems-lambda_role" {
+  name = "nairobi-gems-lambda_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -43,15 +43,15 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 # Lambda IAM Policy
-resource "aws_iam_role_policy_attachment" "lambda_basic" {
-  role       = aws_iam_role.lambda_role.name
+resource "aws_iam_role_policy_attachment" "nairobi-gems-lambda_basic" {
+  role       = aws_iam_role.nairobi-gems-lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 # Add CloudWatch Logs permissions
 resource "aws_iam_role_policy" "lambda_logs" {
   name = "lambda-logs-policy"
-  role = aws_iam_role.lambda_role.id
+  role = aws_iam_role.nairobi-gems-lambda_role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -75,7 +75,7 @@ resource "aws_iam_role_policy" "lambda_logs" {
 # Lambda Function
 resource "aws_lambda_function" "nairobi-gems-lambda" {
   function_name = var.app_name
-  role          = aws_iam_role.lambda_role.arn
+  role          = aws_iam_role.nairobi-gems-lambda_role.arn
   handler       = "main.handler"
   runtime       = "python3.11"
   s3_bucket     = var.s3_bucket_name
