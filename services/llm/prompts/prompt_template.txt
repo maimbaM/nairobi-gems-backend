@@ -17,34 +17,4 @@ For each place, include:
 **CRITICAL INSTRUCTION: STRICT JSON OUTPUT ONLY.**
 **You MUST return a JSON object with the following exact structure and content. No exceptions, no additional text, no backticks, no explanations, no markdown formatting outside of the JSON itself.**
 
-The JSON MUST conform to this exact schema:
-{
-  "places": [
-    {
-      "name": "Place Name",
-      "location": "Location",
-      "budget": "Budget",
-      "description": "Why it's special",
-      "best_time": "Best time to go",
-      "good_for": "Good for"
-    },
-    {
-      "name": "Place Name",
-      "location": "Location",
-      "budget": "Budget",
-      "description": "Why it's special",
-      "best_time": "Best time to go",
-      "good_for": "Good for"
-    },
-    {
-      "name": "Place Name",
-      "location": "Location",
-      "budget": "Budget",
-      "description": "Why it's special",
-      "best_time": "Best time to go",
-      "good_for": "Good for"
-    }
-  ]
-}
-
 User request: {user_input}

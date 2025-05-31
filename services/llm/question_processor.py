@@ -1,4 +1,4 @@
-from models.question import Question
+from models.models import Question
 from services.llm.engines.selector import get_llm_service
 
 

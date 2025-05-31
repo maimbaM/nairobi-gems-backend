@@ -1,10 +1,12 @@
 import os
-import re
 import json
-
-from services.llm.engines.base import BaseLLMService
+import logging
 from google import genai
+from services.llm.engines.base import BaseLLMService
+from models.models import Place
 from services.llm.prompts.prompt import get_llm_prompt
+
+logger = logging.getLogger(__name__)
 
 
 class GeminiLLMService(BaseLLMService):
@@ -12,21 +14,21 @@ class GeminiLLMService(BaseLLMService):
         self.client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
         self.model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash-preview-04-17")
 
-    def generate_response(self, question: str) -> str:
+    def generate_response(self, question: str) -> dict[str, str]:
         try:
             prompt = get_llm_prompt(question=question)
             response = self.client.models.generate_content(
                 model=self.model,
-                contents=prompt
+                contents=prompt,
+                config={
+                    "response_mime_type": "application/json",
+                    "response_schema": list[Place],
+                },
             )
             if not response or not response.text:
-                return "No response generated from Gemini LLM."
-            match = re.search(r'{.*}', response.text.strip(), re.DOTALL)
-            if match:
-                try:
-                    cleaned_json = json.loads(match.group())
-                    return cleaned_json
-                except json.JSONDecodeError as e:
-                    raise ValueError(f"JSON decoding failed:{e}")
+                logger.error("Received empty response from Gemini model.")
+                raise Exception("Empty response from Gemini model.")
+            return {"places": json.loads(response.text.strip())}
         except Exception as e:
+            logger.error(f"Error generating response from Gemini: {e}")
             raise Exception(f"Error generating response: {e}")
