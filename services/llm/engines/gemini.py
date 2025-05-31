@@ -1,4 +1,7 @@
 import os
+import re
+import json
+
 from services.llm.engines.base import BaseLLMService
 from google import genai
 from services.llm.prompts.prompt import get_llm_prompt
@@ -18,8 +21,12 @@ class GeminiLLMService(BaseLLMService):
             )
             if not response or not response.text:
                 return "No response generated from Gemini LLM."
-            return response.text.strip()
-
+            match = re.search(r'{.*}', response.text.strip(), re.DOTALL)
+            if match:
+                try:
+                    cleaned_json = json.loads(match.group())
+                    return cleaned_json
+                except json.JSONDecodeError as e:
+                    raise ValueError(f"JSON decoding failed:{e}")
         except Exception as e:
-            print(f"Error generating response: {e}")
-            return "An error occurred while generating the response."
+            raise Exception(f"Error generating response: {e}")
