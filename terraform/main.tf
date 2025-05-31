@@ -77,7 +77,7 @@ resource "aws_lambda_function" "nairobi-gems-lambda" {
   function_name = var.app_name
   role          = aws_iam_role.nairobi-gems-lambda_role.arn
   handler       = "main.handler"
-  runtime       = "python3.11"
+  runtime       = "python3.9"
   s3_bucket     = var.s3_bucket_name
   s3_key        = "nairobi-gems/lambda-zips/function.zip"
   source_code_hash = filebase64sha256("../build/function.zip")
