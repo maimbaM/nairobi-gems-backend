@@ -1,0 +1,25 @@
+import os
+from services.llm.engines.base import BaseLLMService
+from google import genai
+from services.llm.prompts.prompt import get_llm_prompt
+
+
+class GeminiLLMService(BaseLLMService):
+    def __init__(self):
+        self.client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+        self.model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash-preview-04-17")
+
+    def generate_response(self, question: str) -> str:
+        try:
+            prompt = get_llm_prompt(question=question)
+            response = self.client.models.generate_content(
+                model=self.model,
+                contents=prompt
+            )
+            if not response or not response.text:
+                return "No response generated from Gemini LLM."
+            return response.text.strip()
+
+        except Exception as e:
+            print(f"Error generating response: {e}")
+            return "An error occurred while generating the response."
