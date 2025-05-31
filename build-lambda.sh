@@ -7,7 +7,7 @@ mkdir -p build/python
 pip install -r requirements.txt -t build/python
 
 # Copy Python files and directories
-cp -r *.py models services main.py build/python/
+cp -r *.py config models services main.py build/python/
 
 cd build/python
 

@@ -32,14 +32,3 @@ variable "s3_bucket_name" {
   description = "S3 bucket for storing lambda zipped function"
   type = string
 }
-
-variable "dynamo_table_name" {
-  description = "dynamo table for storing terraform state"
-  type = string
-}
-
-variable "environment" {
-  description = "Environment for the application"
-  type        = string
-  default     = "prod"
-}
