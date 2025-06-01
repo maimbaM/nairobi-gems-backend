@@ -17,6 +17,7 @@ The whole application is deployed and can be found here  - https://main.d34he85m
 - AI-powered responses using Google's Gemini API - easily configurable to other providers like OpenAI, Azure OpenAI, Anthropic etc.
 - Automated AWS Lambda deployment - using terraform and GitHub actions
 - Automated testing and CI/CD pipeline
+- Logs on Cloudwatch
 
 ## Tech Stack
 
