@@ -151,7 +151,7 @@ Request body:
 }
 ```
 
-### Example Request
+### Example Response
 
 Response body:
 ```json
