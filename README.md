@@ -7,7 +7,9 @@ This repo is just for the backend. It is designed to be used with a frontend app
 
 The frontend repo can be found here - https://github.com/maimbaM/llm-chat-ui
 
-The Deployed Frontend can be found here - https://main.d34he85m4y34lf.amplifyapp.com/
+The whole application is deployed and can be found here  - https://main.d34he85m4y34lf.amplifyapp.com/
+
+![Nairobi Gems Main Interface](./screenshots/1.png)
 
 
 ## Features
