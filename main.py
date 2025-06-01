@@ -1,6 +1,8 @@
 import logging
+from typing import Dict, Any
+
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
@@ -22,7 +24,52 @@ setup_logging()
 logger = logging.getLogger(__name__)
 
 
-@app.post("/webhook")
+@app.post(
+    "/webhook",
+    response_model=Dict[str, Any],
+    status_code=status.HTTP_200_OK,
+    summary="Helps users discover hidden gems in Nairobi",
+    description="Accepts questions and returns AI-generated recommendations.",
+    responses={
+        200: {
+            "description": "Successful response with recommendations",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "answer": {
+                            "places": [
+                                {
+                                    "name": "Oloolua Nature Trail",
+                                    "location": "Karen",
+                                    "budget": "$",
+                                    "description": "A lush, winding trail with caves and waterfalls",
+                                    "best_time": "Weekday mornings",
+                                    "good_for": "Solo walks, couples, small groups"
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        400: {
+            "description": "Missing question parameter",
+            "content": {
+                "application/json": {
+                    "example": {"answer": "A question is required"}
+                }
+            }
+        },
+        500: {
+            "description": "Server error",
+            "content": {
+                "application/json": {
+                    "example": {"error": "Error processing question"}
+                }
+            }
+        }
+    }
+)
 async def handle_webhook(request: Request):
     """
     Handle incoming requests from the Nairobi Gems Frontend

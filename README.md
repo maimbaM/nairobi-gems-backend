@@ -208,5 +208,9 @@ response = self.client.models.generate_content(
             )
 ```
 
+## Improvements
+1. Add caching as the LLM calls can be expensive
+2. Add authentication
+
 
 
